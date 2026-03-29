@@ -19,6 +19,10 @@ class Booking extends Model
         'number_of_people',
         'total_price',
         'payment_status',
+        'payment_method',
+        'payment_reference',
+        'payment_id',
+        'paid_amount',
         'booking_confirmation_code',
         'status',
     ];

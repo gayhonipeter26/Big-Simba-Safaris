@@ -19,7 +19,7 @@ class ServiceSeeder extends Seeder
                 'category' => 'hostel',
                 'description' => 'Elite wild-zone lodging with tactical supply lines and thermal containment. Perfect for scouts on a frontier mission.',
                 'pricing_tier' => 'Per Night',
-                'starting_price' => 25.00,
+                'starting_price' => 3250.00,
                 'features' => json_encode(['Secure Perimeter', 'Ration Supply', 'Wilderness Access']),
             ],
             [
@@ -28,7 +28,7 @@ class ServiceSeeder extends Seeder
                 'category' => 'game_drive',
                 'description' => 'Advanced reconnaissance missions in heavy-terrain assets. Track the Big Five with elite navigators.',
                 'pricing_tier' => 'Per Unit',
-                'starting_price' => 150.00,
+                'starting_price' => 19500.00,
                 'features' => json_encode(['4x4 Deployment', 'Expert Scout', 'Night Thermal Op']),
             ],
             [
@@ -37,7 +37,7 @@ class ServiceSeeder extends Seeder
                 'category' => 'transfer',
                 'description' => 'Rapid troop deployment between wild zones and evacuation points. High-speed, high-reliability extraction.',
                 'pricing_tier' => 'One Way',
-                'starting_price' => 80.00,
+                'starting_price' => 10400.00,
                 'features' => json_encode(['Airport Pickup', 'Border Logistics', 'Elite Transport']),
             ],
             [
@@ -46,7 +46,7 @@ class ServiceSeeder extends Seeder
                 'category' => 'other',
                 'description' => 'Complete safari survival training and mission briefing for domestic and international scouts.',
                 'pricing_tier' => 'Complete Training',
-                'starting_price' => 45.00,
+                'starting_price' => 5850.00,
                 'features' => json_encode(['Survival Gear', 'Tactical Maps', 'Wild Training']),
             ],
         ];

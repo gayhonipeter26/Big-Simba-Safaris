@@ -12,10 +12,14 @@ class ReviewController extends Controller
         $validated = $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'required|string|min:10',
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
         ]);
 
         $tour->reviews()->create([
-            'user_id' => $request->user()->id,
+            'user_id' => $request->user()?->id,
+            'name' => $validated['name'] ?? $request->user()?->name,
+            'email' => $validated['email'] ?? $request->user()?->email,
             'rating' => $validated['rating'],
             'comment' => $validated['comment'],
             'is_approved' => false, // Requires moderation

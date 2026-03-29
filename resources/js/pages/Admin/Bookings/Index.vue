@@ -52,8 +52,8 @@ const statusColors: Record<string, string> = {
             <!-- Header -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-10">
                  <div>
-                      <h1 class="text-3xl font-black uppercase tracking-tighter mb-2">Safari Pipeline</h1>
-                      <p class="text-xs opacity-50 uppercase tracking-widest">{{ bookings.length }} Expeditions in queue</p>
+                      <h1 class="font-display text-3xl font-black uppercase tracking-tighter mb-2">Safari Pipeline</h1>
+                      <p class="text-xs opacity-90 uppercase tracking-widest">{{ bookings.length }} Expeditions in queue</p>
                  </div>
             </div>
 
@@ -69,37 +69,37 @@ const statusColors: Record<string, string> = {
                                                <span class="text-sm font-black uppercase text-safari-gold">{{ booking.user.name.charAt(0) }}</span>
                                           </div>
                                           <div>
-                                               <h3 class="text-xl font-black uppercase tracking-tight">{{ booking.user.name }}</h3>
+                                               <h3 class="font-display text-xl font-black uppercase tracking-tight">{{ booking.user.name }}</h3>
                                                <div class="flex items-center gap-4 mt-2">
-                                                    <a :href="`mailto:${booking.user.email}`" class="text-[10px] opacity-40 hover:opacity-100 flex items-center gap-2 tracking-widest uppercase">
+                                                    <a :href="`mailto:${booking.user.email}`" class="text-sm opacity-80 hover:opacity-100 flex items-center gap-2 tracking-widest uppercase">
                                                          <Mail class="w-3 h-3" /> {{ booking.user.email }}
                                                     </a>
                                                </div>
                                           </div>
                                      </div>
                                      <div class="flex flex-col items-end gap-2">
-                                          <span :class="['px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest border', statusColors[booking.status]]">
+                                          <span :class="['px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest border', statusColors[booking.status]]">
                                                {{ booking.status }}
                                           </span>
-                                          <p class="text-[9px] opacity-20 uppercase tracking-widest">Booked on {{ formatDate(booking.created_at) }}</p>
+                                          <p class="text-xs opacity-20 uppercase tracking-widest">Booked on {{ formatDate(booking.created_at) }}</p>
                                      </div>
                                 </div>
 
                                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pt-6 border-t border-white/5">
                                      <div class="space-y-1">
-                                          <p class="text-[9px] font-bold uppercase tracking-widest opacity-30">Tour Selection</p>
+                                          <p class="text-xs font-bold uppercase tracking-widest opacity-70">Tour Selection</p>
                                           <p class="text-xs font-black uppercase tracking-tight text-safari-gold">{{ booking.tour.name }}</p>
                                      </div>
                                      <div class="space-y-1">
-                                          <p class="text-[9px] font-bold uppercase tracking-widest opacity-30">Departure</p>
+                                          <p class="text-xs font-bold uppercase tracking-widest opacity-70">Departure</p>
                                           <p class="text-xs font-black uppercase tracking-tight">{{ formatDate(booking.booking_date) }}</p>
                                      </div>
                                      <div class="space-y-1">
-                                          <p class="text-[9px] font-bold uppercase tracking-widest opacity-30">Adventurers</p>
+                                          <p class="text-xs font-bold uppercase tracking-widest opacity-70">Adventurers</p>
                                           <p class="text-xs font-black uppercase tracking-tight">{{ booking.number_of_people }} People</p>
                                      </div>
                                      <div class="space-y-1">
-                                          <p class="text-[9px] font-bold uppercase tracking-widest opacity-30">Total Investment</p>
+                                          <p class="text-xs font-bold uppercase tracking-widest opacity-70">Total Investment</p>
                                           <p class="text-xs font-black uppercase tracking-tight text-green-500">${{ parseFloat(booking.total_price).toLocaleString() }}</p>
                                      </div>
                                 </div>
@@ -108,12 +108,12 @@ const statusColors: Record<string, string> = {
                            <!-- Actions -->
                            <div class="xl:w-64 flex flex-col justify-between gap-6 border-t xl:border-t-0 xl:border-l border-white/5 xl:pl-10 pt-6 xl:pt-0">
                                 <div class="space-y-4">
-                                     <p class="text-[9px] font-black uppercase tracking-widest opacity-30">Update Status</p>
+                                     <p class="text-xs font-black uppercase tracking-widest opacity-70">Update Status</p>
                                      <div class="grid grid-cols-2 gap-2">
                                           <button v-for="status in ['pending', 'confirmed', 'completed', 'cancelled']" :key="status" 
                                                @click="updateStatus(booking.id, status)"
-                                               :class="['px-3 py-2 text-[8px] font-black uppercase tracking-widest rounded-sm transition-all border', 
-                                                    booking.status === status ? 'bg-white/10 border-white/20' : 'border-white/5 opacity-40 hover:opacity-100 hover:border-white/20']"
+                                               :class="['px-3 py-2 text-xs font-black uppercase tracking-widest rounded-sm transition-all border', 
+                                                    booking.status === status ? 'bg-white/10 border-white/20' : 'border-white/5 opacity-80 hover:opacity-100 hover:border-white/20']"
                                           >
                                                {{ status }}
                                           </button>
@@ -121,7 +121,7 @@ const statusColors: Record<string, string> = {
                                 </div>
 
                                 <div class="flex items-center justify-between gap-4">
-                                     <Link :href="route('tours.show', booking.tour.slug)" target="_blank" class="text-[9px] font-black uppercase tracking-widest opacity-40 hover:opacity-100 flex items-center gap-2">
+                                     <Link :href="route('tours.show', booking.tour.slug)" target="_blank" class="text-xs font-black uppercase tracking-widest opacity-80 hover:opacity-100 flex items-center gap-2">
                                           Preview <ExternalLink class="w-3 h-3" />
                                      </Link>
                                      <button @click="deleteBooking(booking.id)" class="p-3 text-red-500/30 hover:text-red-500 transition-colors">
@@ -136,8 +136,8 @@ const statusColors: Record<string, string> = {
             <!-- Empty State -->
             <div v-else class="py-32 border border-dashed border-white/10 rounded-sm flex flex-col items-center justify-center text-center">
                  <Compass class="w-12 h-12 opacity-10 mb-6" />
-                 <h3 class="text-xl font-black uppercase tracking-widest mb-2">No Bookings Found</h3>
-                 <p class="text-xs opacity-40 max-w-xs mb-8 uppercase tracking-widest">The safari pipeline is currently quiet.</p>
+                 <h3 class="font-display text-xl font-black uppercase tracking-widest mb-2">No Bookings Found</h3>
+                 <p class="text-xs opacity-80 max-w-xs mb-8 uppercase tracking-widest">The safari pipeline is currently quiet.</p>
             </div>
         </div>
     </AppLayout>

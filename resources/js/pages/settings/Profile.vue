@@ -68,11 +68,11 @@ const getInitials = (name: string) => {
                     </div>
 
                     <div class="space-y-2 flex-1 pt-2">
-                        <h2 class="text-2xl font-black uppercase tracking-widest text-white">Safari Identity</h2>
-                        <p class="text-xs font-black uppercase tracking-[0.3em] opacity-40">Your profile information is current tracked as:</p>
+                        <h2 class="font-display text-2xl font-black uppercase tracking-widest text-white">Safari Identity</h2>
+                        <p class="text-xs font-black uppercase tracking-[0.3em] opacity-80">Your profile information is current tracked as:</p>
                         <div v-if="user.google_id" class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
                             <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                            <span class="text-[9px] font-black uppercase tracking-widest opacity-60">Synced with Google</span>
+                            <span class="text-xs font-black uppercase tracking-widest opacity-90">Synced with Google</span>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@ const getInitials = (name: string) => {
 
                     <form @submit.prevent="submit" class="space-y-8 max-w-2xl">
                         <div class="grid gap-3">
-                            <Label for="name" class="text-[10px] font-black uppercase tracking-widest opacity-40 flex items-center gap-2">
+                            <Label for="name" class="text-sm font-black uppercase tracking-widest opacity-80 flex items-center gap-2">
                                 <UserIcon class="w-3 h-3" /> Tracking Name
                             </Label>
                             <Input id="name" class="mt-1 block w-full bg-white/5 border-white/10 focus:border-safari-gold/50 text-sm font-bold tracking-wider" v-model="form.name" required autocomplete="name" placeholder="Full name" />
@@ -90,7 +90,7 @@ const getInitials = (name: string) => {
                         </div>
 
                         <div class="grid gap-3">
-                            <Label for="email" class="text-[10px] font-black uppercase tracking-widest opacity-40 flex items-center gap-2">
+                            <Label for="email" class="text-sm font-black uppercase tracking-widest opacity-80 flex items-center gap-2">
                                 <Mail class="w-3 h-3" /> Communication Frequency
                             </Label>
                             <Input
@@ -124,7 +124,7 @@ const getInitials = (name: string) => {
                         </div>
 
                         <div class="flex items-center gap-6">
-                            <Button :disabled="form.processing" class="bg-safari-gold/80 hover:bg-safari-gold text-black font-black uppercase text-[10px] tracking-widest px-8">Update Identity</Button>
+                            <Button :disabled="form.processing" class="bg-safari-gold/80 hover:bg-safari-gold text-black font-black uppercase text-sm tracking-widest px-8">Update Identity</Button>
 
                             <TransitionRoot
                                 :show="form.recentlySuccessful"
@@ -133,7 +133,7 @@ const getInitials = (name: string) => {
                                 leave="transition ease-in-out"
                                 leave-to="opacity-0"
                             >
-                                <p class="text-[10px] font-black uppercase tracking-widest text-safari-gold animate-pulse">Records Updated.</p>
+                                <p class="text-sm font-black uppercase tracking-widest text-safari-gold animate-pulse">Records Updated.</p>
                             </TransitionRoot>
                         </div>
                     </form>

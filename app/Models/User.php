@@ -83,4 +83,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
+    public function fleetHires(): HasMany
+    {
+        return $this->hasMany(FleetHire::class);
+    }
+
+    public function tourEnquiries(): HasMany
+    {
+        return $this->hasMany(TourEnquiry::class);
+    }
 }

@@ -18,8 +18,8 @@ import AuthBase from '@/layouts/AuthLayout.vue';
         </div>
 
         <div class="bg-safari-gold/5 border border-safari-gold/20 p-6 rounded-lg text-center">
-            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-safari-gold">Session Securely Linkage Completed</p>
-            <p class="text-xs mt-2 opacity-60">You may now close this window on your mobile device. Your computer will proceed automatically.</p>
+            <p class="text-sm font-black uppercase tracking-[0.2em] text-safari-gold">Session Securely Linkage Completed</p>
+            <p class="text-xs mt-2 opacity-90">You may now close this window on your mobile device. Your computer will proceed automatically.</p>
         </div>
     </AuthBase>
 </template>

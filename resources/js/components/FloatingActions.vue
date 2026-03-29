@@ -27,7 +27,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="fixed bottom-8 right-8 z-[999] flex flex-col items-center gap-4">
+    <div class="fixed bottom-6 right-6 z-[999] flex flex-col items-center gap-3">
         <!-- Scroll to Top -->
         <transition 
             enter-active-class="transition duration-500 ease-out"
@@ -40,10 +40,10 @@ onUnmounted(() => {
             <button 
                 v-if="isScrolled"
                 @click="scrollToTop"
-                class="w-12 h-12 bg-black/80 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-safari-gold shadow-2xl hover:bg-safari-gold hover:text-black hover:border-safari-gold transition-all duration-500 group"
+                class="w-10 h-10 bg-black/80 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-safari-gold shadow-2xl hover:bg-safari-gold hover:text-black hover:border-safari-gold transition-all duration-500 group"
                 aria-label="Scroll to top"
             >
-                <ChevronUp class="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
+                <ChevronUp class="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
             </button>
         </transition>
 
@@ -51,13 +51,13 @@ onUnmounted(() => {
         <a 
             :href="`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`"
             target="_blank"
-            class="w-14 h-14 bg-safari-gold rounded-full flex items-center justify-center text-black shadow-xl hover:scale-110 transition-all duration-300 group relative"
+            class="w-10 h-10 bg-safari-gold rounded-full flex items-center justify-center text-black shadow-xl hover:scale-110 transition-all duration-300 group relative"
             aria-label="Chat on WhatsApp"
         >
-            <MessageCircle class="w-8 h-8 fill-current transition-transform" />
+            <MessageCircle class="w-5 h-5 fill-current transition-transform" />
             
             <!-- Tooltip -->
-            <span class="absolute right-full mr-4 px-4 py-2 bg-black border border-white/10 text-safari-gold text-[10px] font-black uppercase tracking-widest rounded-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap hidden md:block">
+            <span class="absolute right-full mr-4 px-4 py-2 bg-black border border-white/10 text-safari-gold text-sm font-black uppercase tracking-widest rounded-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap hidden md:block">
                 Chat With Us
             </span>
         </a>

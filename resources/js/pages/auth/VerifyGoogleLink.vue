@@ -33,14 +33,14 @@ const submit = () => {
             <div class="w-16 h-16 bg-safari-gold/10 rounded-full flex items-center justify-center mb-6">
                 <ShieldAlert class="w-8 h-8 text-safari-gold" />
             </div>
-            <p class="text-[10px] font-black uppercase tracking-[0.3em] opacity-40 mb-2">Existing Account Detected</p>
+            <p class="text-sm font-black uppercase tracking-[0.3em] opacity-80 mb-2">Existing Account Detected</p>
             <p class="text-white font-bold tracking-wider">{{ email }}</p>
         </div>
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="password" class="text-[10px] font-black uppercase tracking-widest opacity-60">Account Password</Label>
+                    <Label for="password" class="text-sm font-black uppercase tracking-widest opacity-90">Account Password</Label>
                     <Input 
                         id="password" 
                         type="password" 
@@ -53,13 +53,13 @@ const submit = () => {
                     <InputError :message="form.errors.password" />
                 </div>
 
-                <Button type="submit" class="mt-4 w-full bg-safari-gold hover:bg-white text-black text-[10px] font-black uppercase tracking-[0.2em]" :disabled="form.processing">
+                <Button type="submit" class="mt-4 w-full bg-safari-gold hover:bg-white text-black text-sm font-black uppercase tracking-[0.2em]" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                     Verify & Link Account
                 </Button>
             </div>
 
-            <a :href="route('login')" class="text-center text-[10px] font-black uppercase tracking-widest opacity-40 hover:opacity-100 transition-all">
+            <a :href="route('login')" class="text-center text-sm font-black uppercase tracking-widest opacity-80 hover:opacity-100 transition-all">
                 Cancel and back to login
             </a>
         </form>

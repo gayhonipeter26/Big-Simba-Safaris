@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\FacebookController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -17,6 +18,9 @@ Route::middleware('guest')->group(function () {
     Route::get('auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
     Route::get('auth/google/verify', [GoogleController::class, 'showVerify'])->name('google.verify');
     Route::post('auth/google/verify', [GoogleController::class, 'verify'])->name('google.link');
+
+    Route::get('auth/facebook', [FacebookController::class, 'redirect'])->name('facebook.redirect');
+    Route::get('auth/facebook/callback', [FacebookController::class, 'callback'])->name('facebook.callback');
 
     // Support OTP verification (Strict Admin Access)
     Route::get('verify-access', [TwoFactorController::class, 'show'])->name('otp.show');

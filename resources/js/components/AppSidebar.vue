@@ -36,7 +36,7 @@ const mainNavItems = computed(() => {
             },
             {
                 title: 'Safari Pipeline',
-                url: route('admin.bookings.index'),
+                url: route('admin.tour-enquiries.index'),
                 icon: Compass,
             },
             {

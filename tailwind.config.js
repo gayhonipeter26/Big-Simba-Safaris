@@ -12,7 +12,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Outfit', 'Instrument Sans', ...defaultTheme.fontFamily.sans],
+                sans: ['Instrument Sans', 'Outfit', ...defaultTheme.fontFamily.sans],
                 display: ['Outfit', ...defaultTheme.fontFamily.sans],
             },
             borderRadius: {

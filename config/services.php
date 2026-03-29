@@ -41,4 +41,21 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URL', '/auth/google/callback'),
     ],
 
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT_URL', '/auth/facebook/callback'),
+    ],
+
+    'mpesa' => [
+        'key' => env('MPESA_CONSUMER_KEY'),
+        'secret' => env('MPESA_CONSUMER_SECRET'),
+        'shortcode' => env('MPESA_SHORTCODE'),
+        'passkey' => env('MPESA_PASSKEY'),
+        'till_number' => env('MPESA_TILL_NUMBER'),
+        'transaction_type' => env('MPESA_TRANSACTION_TYPE', 'CustomerPayBillOnline'),
+        'callback_url' => env('MPESA_STK_CALLBACK_URL', env('APP_URL', 'http://localhost:8000').'/api/mpesa/callback'),
+        'env' => env('MPESA_ENV', 'sandbox'),
+    ],
+
 ];

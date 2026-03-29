@@ -1,5 +1,6 @@
 <?php
 
+use Akaunting\Language\Middleware\SetLocale;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -15,12 +16,19 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [
+            SetLocale::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
 
         $middleware->alias([
             'admin' => AdminMiddleware::class,
+        ]);
+
+        $middleware->validateCsrfTokens(except: [
+            '/api/mpesa/callback',
+            '/api/mpesa/c2b/validation',
+            '/api/mpesa/c2b/confirmation',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

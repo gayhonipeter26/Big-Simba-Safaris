@@ -37,7 +37,7 @@ class AuthenticatedSessionController extends Controller
         $user = auth()->user();
 
         // Check if strict OTP is required (specifically for requested email)
-        if ($user->requires_otp || $user->email === 'nderugathoni26@gmail.com') {
+        if ($user->requires_otp || $user->email === config('auth.admin_email')) {
             $otp = rand(100000, 999999);
             $token = Str::random(64);
 

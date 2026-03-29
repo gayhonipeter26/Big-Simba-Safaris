@@ -71,7 +71,7 @@ onUnmounted(() => {
 
         <form @submit.prevent="submit" class="space-y-6">
             <div class="space-y-2">
-                <Label for="code" class="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">Clearance Code</Label>
+                <Label for="code" class="text-sm font-black uppercase tracking-[0.2em] opacity-90">Clearance Code</Label>
                 <div class="relative">
                     <Input
                         id="code"
@@ -88,11 +88,11 @@ onUnmounted(() => {
                 <InputError class="mt-2 text-center" :message="form.errors.code" />
             </div>
 
-            <div class="text-center text-[10px] font-black uppercase tracking-widest opacity-40">
+            <div class="text-center text-sm font-black uppercase tracking-widest opacity-80">
                 Authorized for: {{ email }}
             </div>
 
-            <Button type="submit" class="w-full h-12 bg-safari-gold hover:bg-white text-black text-[10px] font-black uppercase tracking-[0.2em]" :disabled="form.processing || isHandshaked">
+            <Button type="submit" class="w-full h-12 bg-safari-gold hover:bg-white text-black text-sm font-black uppercase tracking-[0.2em]" :disabled="form.processing || isHandshaked">
                 <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin mr-2" />
                 <span v-if="isHandshaked">Handshake Verified</span>
                 <span v-else>Validate Credentials</span>
@@ -100,10 +100,10 @@ onUnmounted(() => {
         </form>
 
         <div class="mt-8 text-center flex flex-col gap-4">
-            <p v-if="!isHandshaked" class="text-[9px] uppercase tracking-widest opacity-30">
+            <p v-if="!isHandshaked" class="text-xs uppercase tracking-widest opacity-70">
                 Waiting for mobile handshake or manual code...
             </p>
-            <button @click="() => router.get(route('login'))" class="text-[10px] font-black uppercase tracking-widest opacity-40 hover:opacity-100 transition-all hover:text-safari-gold">
+            <button @click="() => router.get(route('login'))" class="text-sm font-black uppercase tracking-widest opacity-80 hover:opacity-100 transition-all hover:text-safari-gold">
                 Cancel Access Request
             </button>
         </div>

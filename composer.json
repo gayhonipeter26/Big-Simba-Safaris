@@ -10,10 +10,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "akaunting/laravel-language": "^2.0",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
-        "laravel/socialite": "^5.25",
+        "laravel/socialite": "^5.26",
         "laravel/tinker": "^2.10.1",
+        "mgcodeur/laravel-currency-converter": "^1.0",
         "stevebauman/location": "^7.6",
         "tightenco/ziggy": "^2.4"
     },

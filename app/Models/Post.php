@@ -20,6 +20,21 @@ class Post extends Model
         'is_published',
     ];
 
+    protected $appends = [
+        'excerpt',
+        'created_at_human',
+    ];
+
+    public function getExcerptAttribute(): string
+    {
+        return str($this->content)->limit(150);
+    }
+
+    public function getCreatedAtHumanAttribute(): string
+    {
+        return $this->created_at->diffForHumans();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

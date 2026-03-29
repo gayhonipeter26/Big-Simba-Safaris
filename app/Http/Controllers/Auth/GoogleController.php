@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AdminOtpMail;
+use App\Mail\WelcomeToThePride;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +45,7 @@ class GoogleController extends Controller
                     ]);
 
                     // Check if strict OTP is required
-                    if ($user->requires_otp || $user->email === 'nderugathoni26@gmail.com') {
+                    if ($user->requires_otp || $user->email === config('auth.admin_email')) {
                         $otp = rand(100000, 999999);
                         $token = Str::random(64);
 
@@ -93,6 +94,8 @@ class GoogleController extends Controller
                 'avatar' => $googleUser->avatar,
                 'password' => Hash::make(Str::random(24)),
             ]);
+
+            Mail::to($user->email)->send(new WelcomeToThePride($user));
 
             Auth::login($user);
 
@@ -150,7 +153,7 @@ class GoogleController extends Controller
         session()->forget('google_auth_data');
 
         // Check if strict OTP is required
-        if ($user->requires_otp || $user->email === 'nderugathoni26@gmail.com') {
+        if ($user->requires_otp || $user->email === config('auth.admin_email')) {
             $otp = rand(100000, 999999);
             $token = Str::random(64);
 

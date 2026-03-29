@@ -25,7 +25,7 @@ defineProps<{
         <div class="absolute top-8 left-8 z-20">
             <Link 
                 :href="route('home')" 
-                class="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] opacity-40 hover:opacity-100 hover:text-safari-gold transition-all group"
+                class="flex items-center gap-2 text-sm font-black uppercase tracking-[0.3em] opacity-40 hover:opacity-100 hover:text-safari-gold transition-all group"
             >
                 <ArrowLeft class="size-4 group-hover:-translate-x-1 transition-transform" />
                 Back to Savannah
@@ -39,8 +39,8 @@ defineProps<{
                         <SimbaLogo size="lg" />
                     </Link>
                     <div class="space-y-3 text-center">
-                        <h1 class="text-3xl font-black uppercase tracking-tighter leading-none">{{ title }}</h1>
-                        <p class="text-center text-[10px] font-black uppercase tracking-[0.4em] text-safari-gold opacity-60">{{ description }}</p>
+                        <h1 class="font-display text-3xl font-black uppercase tracking-tighter leading-none">{{ title }}</h1>
+                        <p class="text-center text-sm font-black uppercase tracking-[0.4em] text-safari-gold opacity-60">{{ description }}</p>
                     </div>
                 </div>
                 <!-- Main Auth Slot -->

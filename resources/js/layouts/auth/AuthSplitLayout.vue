@@ -23,32 +23,32 @@ defineProps<{
         <div class="absolute top-8 left-8 lg:left-auto lg:right-8 z-50">
             <Link 
                 :href="route('home')" 
-                class="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-white opacity-40 hover:opacity-100 hover:text-safari-gold transition-all group"
+                class="flex items-center gap-2 text-sm font-black uppercase tracking-[0.3em] text-white opacity-40 hover:opacity-100 hover:text-safari-gold transition-all group"
             >
-                <ArrowLeft class="size-4 group-hover:-translate-x-1 transition-transform" />
-                Back to Home
+                <ArrowLeft class="size-5 lg:size-4 group-hover:-translate-x-1 transition-transform" />
+                <span class="hidden lg:inline">Back to Home</span>
             </Link>
         </div>
 
-        <!-- Left Visual Pane -->
-        <div class="relative hidden h-full flex-col p-16 text-white lg:flex border-r border-white/5 overflow-hidden">
+        <!-- Visual Pane (Background on Mobile, Left Column on Desktop) -->
+        <div class="absolute lg:relative inset-0 lg:inset-auto z-0 h-full flex-col p-8 lg:p-16 text-white flex border-r-0 lg:border-r border-white/5 overflow-hidden">
             <div class="absolute inset-0 z-0 transition-transform duration-[10s]">
                 <img 
                     src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=2071" 
-                    class="w-full h-full object-cover grayscale-[0.2] contrast-[1.1] brightness-[0.6]"
+                    class="w-full h-full object-cover grayscale-[0.5] lg:grayscale-[0.2] contrast-[1.1] brightness-[0.3] lg:brightness-[0.6]"
                     alt="Safari Heritage"
                 />
-                <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-black/40"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 lg:via-transparent to-black/80 lg:to-black/40"></div>
                 <div class="absolute inset-0 bg-safari-gold/5 mix-blend-overlay"></div>
             </div>
 
-            <!-- Logo -->
-            <Link :href="route('home')" class="relative z-20">
+            <!-- Logo (Desktop Only) -->
+            <Link :href="route('home')" class="relative z-20 hidden lg:block">
                 <SimbaLogo size="md" />
             </Link>
 
-            <!-- Brand Quote -->
-            <div class="relative z-20 mt-auto max-w-lg space-y-8">
+            <!-- Brand Quote (Desktop Only) -->
+            <div class="relative z-20 mt-auto max-w-lg space-y-8 hidden lg:block">
                 <Quote class="size-12 text-safari-gold/40" />
                 <blockquote class="space-y-6">
                     <p class="text-3xl font-black uppercase tracking-tighter leading-[1.1]">&ldquo;{{ quote.message }}&rdquo;</p>
@@ -74,8 +74,8 @@ defineProps<{
                             <SimbaLogo size="md" />
                          </Link>
                     </div>
-                    <h1 class="text-4xl font-black uppercase tracking-tighter leading-none" v-if="title">{{ title }}</h1>
-                    <p class="text-[10px] font-black uppercase tracking-[0.4em] text-safari-gold/60" v-if="description">{{ description }}</p>
+                    <h1 class="font-display text-4xl font-black uppercase tracking-tighter leading-none" v-if="title">{{ title }}</h1>
+                    <p class="text-sm font-black uppercase tracking-[0.4em] text-safari-gold/60" v-if="description">{{ description }}</p>
                 </div>
                 <!-- Main Auth Slot -->
                 <div class="backdrop-blur-sm">

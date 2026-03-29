@@ -29,10 +29,10 @@ const deleteDestination = (id: number) => {
         <div class="p-6 md:p-10 space-y-10 max-w-[1600px] mx-auto">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-10">
                  <div>
-                      <h1 class="text-3xl font-black uppercase tracking-tighter mb-2">Safari Regions</h1>
-                      <p class="text-xs opacity-50 uppercase tracking-widest">Manage your Kenyan geographic hubs</p>
+                      <h1 class="font-display text-3xl font-black uppercase tracking-tighter mb-2">Safari Regions</h1>
+                      <p class="text-xs opacity-90 uppercase tracking-widest">Manage your Kenyan geographic hubs</p>
                  </div>
-                 <Link :href="route('admin.destinations.create')" class="px-8 py-3 bg-safari-gold text-black text-[10px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all rounded-sm flex items-center gap-2">
+                 <Link :href="route('admin.destinations.create')" class="px-8 py-3 bg-safari-gold text-black text-sm font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all rounded-sm flex items-center gap-2">
                       <Plus class="w-3 h-3" /> New Region
                  </Link>
             </div>
@@ -44,19 +44,19 @@ const deleteDestination = (id: number) => {
                            <div class="absolute inset-0 bg-black/40"></div>
                       </div>
                       <div class="p-8">
-                           <h3 class="text-xl font-black uppercase tracking-tight mb-4">{{ dest.name }}</h3>
-                           <p class="text-[10px] opacity-40 uppercase tracking-widest mb-8 line-clamp-2 leading-relaxed">{{ dest.overview }}</p>
+                           <h3 class="font-display text-xl font-black uppercase tracking-tight mb-4">{{ dest.name }}</h3>
+                           <p class="text-sm opacity-80 uppercase tracking-widest mb-8 line-clamp-2 leading-relaxed">{{ dest.overview }}</p>
                            
                            <div class="flex items-center justify-between pt-6 border-t border-white/5">
                                 <div class="flex items-center gap-2">
                                      <Link :href="route('admin.destinations.edit', dest.id)" class="p-2 border border-white/5 hover:border-safari-gold/50 hover:bg-safari-gold/5 transition-all">
-                                          <Edit2 class="w-3.5 h-3.5 opacity-40 hover:opacity-100" />
+                                          <Edit2 class="w-3.5 h-3.5 opacity-80 hover:opacity-100" />
                                      </Link>
                                      <button @click="deleteDestination(dest.id)" class="p-2 border border-white/5 hover:border-red-500/50 hover:bg-red-500/5 transition-all">
-                                          <Trash2 class="w-3.5 h-3.5 opacity-40 hover:opacity-100" />
+                                          <Trash2 class="w-3.5 h-3.5 opacity-80 hover:opacity-100" />
                                      </button>
                                 </div>
-                                <span class="text-[8px] font-black uppercase tracking-widest opacity-20 hover:opacity-40 cursor-default">
+                                <span class="text-xs font-black uppercase tracking-widest opacity-20 hover:opacity-80 cursor-default">
                                      REGION: {{ dest.slug }}
                                 </span>
                            </div>
@@ -66,8 +66,8 @@ const deleteDestination = (id: number) => {
 
             <div v-else class="py-32 border border-dashed border-white/10 rounded-sm flex flex-col items-center justify-center text-center">
                  <Globe class="w-12 h-12 opacity-10 mb-6" />
-                 <h3 class="text-xl font-black uppercase tracking-widest mb-2">No Regions Found</h3>
-                 <Link :href="route('admin.destinations.create')" class="px-10 py-4 border border-white/20 text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all">
+                 <h3 class="font-display text-xl font-black uppercase tracking-widest mb-2">No Regions Found</h3>
+                 <Link :href="route('admin.destinations.create')" class="px-10 py-4 border border-white/20 text-sm font-black uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all">
                       Add Your First Region
                  </Link>
             </div>

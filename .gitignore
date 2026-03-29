@@ -21,3 +21,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/.cursor
+fix_db.php
+*.dump.txt

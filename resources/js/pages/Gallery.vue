@@ -2,7 +2,7 @@
 import GuestLayout from '@/layouts/GuestLayout.vue';
 import AppHeaderLayout from '@/layouts/app/AppHeaderLayout.vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
-import { Camera, Video, Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-vue-next';
+import { Camera, Video, Maximize2, X, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-vue-next';
 import { ref, onMounted, computed } from 'vue';
 
 defineProps<{
@@ -11,7 +11,7 @@ defineProps<{
 
 const page = usePage<any>();
 const auth = computed(() => page.props.auth);
-const layout = computed(() => page.url.startsWith('/dashboard') ? AppHeaderLayout : GuestLayout);
+const layout = computed(() => (page.props.auth?.user || page.url.startsWith('/dashboard')) ? AppHeaderLayout : GuestLayout);
 
 const selectedItem = ref<any>(null);
 const currentIndex = ref(-1);
@@ -51,7 +51,18 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Wildlife Gallery | Big Simba Safaris" />
+    <Head title="Wild Gallery - Cinematic Savanna Archives">
+        <meta name="description" content="Explore the cinematic wildlife archives of Big Simba Safaris. A curated collection of high-resolution images and videos from the Kenyan savanna." />
+        <meta property="og:title" content="Wild Gallery - Big Simba Safaris" />
+        <meta property="og:description" content="Capture the spirit of the wild. Explore our elite collection of Kenyan safari imagery." />
+        <meta name="keywords" content="Kenya Wildlife Gallery, Safari Photos, African Wildlife Videos, Big Simba Visual Archives" />
+        <component :is="'script'" type="application/ld+json" v-html="JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'ImageGallery',
+          'name': 'The Wild Gallery',
+          'description': 'Cinematic archives of Kenyan wildlife captured by Big Simba Safaris units.'
+        })"></component>
+    </Head>
 
     <component :is="layout" :full-bleed="true">
         <div class="min-h-screen bg-[#050505] pt-24 pb-32">
@@ -63,9 +74,14 @@ onMounted(() => {
                 </div>
 
                 <div class="container mx-auto relative z-10 text-center space-y-8 animate-in fade-in slide-in-from-bottom-10 duration-1000">
-                    <p class="text-[10px] md:text-[12px] font-black tracking-[0.6em] uppercase text-safari-gold">- Visual Archives //</p>
-                    <h1 class="text-6xl md:text-[8rem] font-black uppercase tracking-tighter leading-none text-white">THE WILD <span class="text-safari-gold italic block md:inline md:ml-4">GALLERY</span></h1>
-                    <p class="max-w-xl mx-auto text-xs md:text-sm font-light opacity-40 uppercase tracking-[0.2em] leading-relaxed italic text-white/50">
+                    <div class="flex justify-center mb-4">
+                         <Link :href="page.props.auth?.user ? route('dashboard') : route('home')" class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-safari-gold hover:text-white transition-all group/back">
+                              <ArrowLeft class="w-3 h-3 group-hover/back:-translate-x-1.5 transition-transform" /> {{ page.props.auth?.user ? 'Back to Dashboard' : 'Back to Welcome' }}
+                         </Link>
+                    </div>
+                    <p class="text-sm md:text-base font-black tracking-[0.6em] uppercase text-safari-gold">- Visual Archives //</p>
+                    <h1 class="font-display text-6xl md:text-[8rem] font-black uppercase tracking-tighter leading-none text-white">THE WILD <span class="text-safari-gold italic block md:inline md:ml-4">GALLERY</span></h1>
+                    <p class="max-w-xl mx-auto text-xs md:text-sm font-light opacity-80 uppercase tracking-[0.2em] leading-relaxed italic text-white/50">
                         A curated register of the savanna's most cinematic moments. Capture the spirit of Kenya through our lenses.
                     </p>
                 </div>
@@ -89,23 +105,23 @@ onMounted(() => {
                                 class="w-full h-auto grayscale-[0.8] group-hover:grayscale-0 transition-all duration-[1500ms] group-hover:scale-110"
                             />
                             <div v-else class="aspect-video bg-black flex items-center justify-center relative">
-                                <Video class="w-12 h-12 text-safari-gold opacity-40 group-hover:opacity-100 transition-opacity" />
+                                <Video class="w-12 h-12 text-safari-gold opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <img :src="item.url" class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale" />
                             </div>
 
                             <!-- Overlay -->
                             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-8">
                                 <div class="space-y-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
-                                    <div class="flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.3em] text-safari-gold">
+                                    <div class="flex items-center gap-2 text-xs font-black uppercase tracking-[0.3em] text-safari-gold">
                                         <Camera v-if="item.type === 'image'" class="w-3 h-3" />
                                         <Video v-else class="w-3 h-3" />
                                         {{ item.type }}
                                     </div>
-                                    <h3 class="text-lg font-black uppercase tracking-tight leading-tight text-white">{{ item.title }}</h3>
-                                    <p class="text-[9px] opacity-40 italic uppercase tracking-widest line-clamp-2 text-white/60">{{ item.description }}</p>
+                                    <h3 class="font-display text-lg font-black uppercase tracking-tight leading-tight text-white">{{ item.title }}</h3>
+                                    <p class="text-xs opacity-80 italic uppercase tracking-widest line-clamp-2 text-white/60">{{ item.description }}</p>
                                     <div class="flex items-center gap-2 pt-4">
                                         <div class="w-8 h-[1px] bg-safari-gold"></div>
-                                        <span class="text-[8px] font-black uppercase tracking-[0.2em] text-white">Enlarge Archive</span>
+                                        <span class="text-xs font-black uppercase tracking-[0.2em] text-white">Enlarge Archive</span>
                                     </div>
                                 </div>
                             </div>
@@ -116,9 +132,9 @@ onMounted(() => {
                 <!-- Empty State -->
                 <div v-else class="py-44 border border-dashed border-white/10 rounded-sm flex flex-col items-center justify-center text-center">
                     <Camera class="w-16 h-16 opacity-5 mb-8 text-safari-gold" />
-                    <h3 class="text-2xl font-black uppercase tracking-widest mb-4 text-white">Archives are Locked</h3>
-                    <p class="text-xs opacity-40 max-w-sm mb-12 uppercase tracking-widest italic leading-relaxed text-white/50">The visual register is currently being curated. Return soon for new wilderness records.</p>
-                    <Link href="/" class="px-12 py-5 border border-white/20 text-[10px] font-black uppercase tracking-[0.4em] text-white hover:bg-white hover:text-black transition-all">Return to Outpost</Link>
+                    <h3 class="font-display text-2xl font-black uppercase tracking-widest mb-4 text-white">Archives are Locked</h3>
+                    <p class="text-xs opacity-80 max-w-sm mb-12 uppercase tracking-widest italic leading-relaxed text-white/50">The visual register is currently being curated. Return soon for new wilderness records.</p>
+                    <Link href="/" class="px-12 py-5 border border-white/20 text-sm font-black uppercase tracking-[0.4em] text-white hover:bg-white hover:text-black transition-all">Return to Outpost</Link>
                 </div>
             </div>
         </div>
@@ -165,19 +181,19 @@ onMounted(() => {
 
                 <div class="text-center space-y-4 max-w-2xl animate-in slide-in-from-bottom duration-700">
                     <div class="flex flex-col items-center gap-2">
-                        <div class="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-safari-gold">
+                        <div class="flex items-center gap-3 text-sm font-black uppercase tracking-[0.4em] text-safari-gold">
                             <Camera v-if="selectedItem.type === 'image'" class="w-4 h-4" />
                             <Video v-else class="w-4 h-4" />
                             {{ selectedItem.type }}
                         </div>
-                        <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tight text-white">{{ selectedItem.title }}</h2>
+                        <h2 class="font-display text-3xl md:text-5xl font-black uppercase tracking-tight text-white">{{ selectedItem.title }}</h2>
                     </div>
-                    <p class="text-sm font-light opacity-50 uppercase tracking-widest italic leading-relaxed text-white/50">{{ selectedItem.description }}</p>
+                    <p class="text-sm font-light opacity-90 uppercase tracking-widest italic leading-relaxed text-white/50">{{ selectedItem.description }}</p>
                 </div>
             </div>
 
             <!-- Progress Indicator -->
-            <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-4 text-[10px] font-black uppercase tracking-widest opacity-20 text-white">
+            <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-4 text-sm font-black uppercase tracking-widest opacity-20 text-white">
                 <span>{{ currentIndex + 1 }}</span>
                 <div class="w-20 h-[1px] bg-white/20">
                     <div class="h-full bg-safari-gold transition-all duration-500" :style="{ width: ((currentIndex + 1) / items.length * 100) + '%' }"></div>

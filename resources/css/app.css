@@ -5,7 +5,13 @@
 @tailwind utilities;
 body,
 html {
-    --font-sans: 'Outfit', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Instrument Sans', 'Outfit', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    background-color: #050505;
 }
 
 @layer base {
@@ -89,4 +95,24 @@ html {
     body {
         @apply bg-background text-foreground;
     }
+}
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+ 
+/* NProgress Tactical Gradient Protocol */
+#nprogress .bar {
+    background: linear-gradient(to right, #92400e, #ca8a04, #fbbf24) !important;
+    height: 3px !important;
+}
+ 
+#nprogress .peg {
+    box-shadow: 0 0 15px #ca8a04, 0 0 8px #ca8a04 !important;
 }

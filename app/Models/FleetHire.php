@@ -20,6 +20,11 @@ class FleetHire extends Model
         'end_date',
         'message',
         'status',
+        'payment_status',
+        'payment_method',
+        'payment_reference',
+        'payment_id',
+        'paid_amount',
     ];
 
     public function fleet(): BelongsTo

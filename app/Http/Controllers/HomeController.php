@@ -36,10 +36,10 @@ class HomeController extends Controller
             'featuredTours' => Tour::with(['destination'])->latest()->take(3)->get(),
             'latestPosts' => Post::where('is_published', true)->with('user:id,name')->latest()->take(3)->get(),
             'galleryItems' => GalleryItem::where('is_featured', true)->latest()->take(8)->get(),
-            'featuredReviews' => Review::where('is_approved', true)->with(['user:id,name', 'tour:id,name'])->latest()->take(5)->get(),
+            'featuredReviews' => Review::where('is_approved', true)->with(['user', 'tour:id,name'])->latest()->take(5)->get(),
             'favoriteSpots' => Destination::latest()->take(4)->get(),
-            'fleet' => Fleet::where('is_available', true)->latest()->take(6)->get(),
-            'services' => Service::latest()->get(),
+            'fleet' => Fleet::where('is_available', true)->latest()->take(3)->get(),
+            'services' => Service::latest()->take(2)->get(),
         ]);
     }
 }

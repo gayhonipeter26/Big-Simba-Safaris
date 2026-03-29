@@ -47,8 +47,8 @@ const getStatusColor = (status: string) => {
             <!-- Header -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-10">
                  <div>
-                      <h1 class="text-3xl font-black uppercase tracking-tighter mb-2">Safari Intel</h1>
-                      <p class="text-xs opacity-50 uppercase tracking-widest">Review and manage inbound guest communications</p>
+                      <h1 class="font-display text-3xl font-black uppercase tracking-tighter mb-2">Safari Intel</h1>
+                      <p class="text-xs opacity-90 uppercase tracking-widest">Review and manage inbound guest communications</p>
                  </div>
             </div>
 
@@ -58,10 +58,10 @@ const getStatusColor = (status: string) => {
                       <div class="flex flex-col lg:flex-row gap-8 justify-between">
                            <div class="space-y-6 flex-1">
                                 <div class="flex items-center gap-6">
-                                     <span :class="['px-3 py-1 text-[8px] font-black uppercase tracking-widest rounded-full border', getStatusColor(message.status)]">
+                                     <span :class="['px-3 py-1 text-xs font-black uppercase tracking-widest rounded-full border', getStatusColor(message.status)]">
                                           {{ message.status }}
                                      </span>
-                                     <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider opacity-30">
+                                     <div class="flex items-center gap-2 text-sm font-bold uppercase tracking-wider opacity-70">
                                           <Clock class="w-3.5 h-3.5" />
                                           {{ new Date(message.created_at).toLocaleString() }}
                                      </div>
@@ -69,18 +69,18 @@ const getStatusColor = (status: string) => {
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                      <div class="space-y-2">
-                                          <p class="text-[9px] font-black uppercase tracking-[0.4em] opacity-30">Inbound Source</p>
+                                          <p class="text-xs font-black uppercase tracking-[0.4em] opacity-70">Inbound Source</p>
                                           <div class="flex items-center gap-3">
                                                <User class="w-4 h-4 text-safari-gold/40" />
-                                               <h3 class="text-lg font-black uppercase tracking-tight">{{ message.name }}</h3>
+                                               <h3 class="font-display text-lg font-black uppercase tracking-tight">{{ message.name }}</h3>
                                           </div>
                                           <div class="flex items-center gap-3">
                                                <Mail class="w-4 h-4 text-safari-gold/40" />
-                                               <a :href="'mailto:' + message.email" class="text-sm opacity-60 hover:text-safari-gold transition-colors">{{ message.email }}</a>
+                                               <a :href="'mailto:' + message.email" class="text-sm opacity-90 hover:text-safari-gold transition-colors">{{ message.email }}</a>
                                           </div>
                                      </div>
                                      <div class="space-y-2">
-                                          <p class="text-[9px] font-black uppercase tracking-[0.4em] opacity-30">Mission Detail</p>
+                                          <p class="text-xs font-black uppercase tracking-[0.4em] opacity-70">Mission Detail</p>
                                           <p class="text-sm font-light leading-relaxed opacity-70 italic">"{{ message.message }}"</p>
                                      </div>
                                 </div>
@@ -93,8 +93,8 @@ const getStatusColor = (status: string) => {
                                      class="p-3 border border-white/5 hover:border-green-500/50 hover:bg-green-500/5 transition-all group/btn flex items-center gap-3 w-full lg:w-44 whitespace-nowrap"
                                      title="Mark as Responded"
                                 >
-                                     <CheckCircle class="w-4 h-4 opacity-40 group-hover/btn:opacity-100 group-hover/btn:text-green-500" />
-                                     <span class="text-[9px] font-black uppercase tracking-widest opacity-0 group-hover/btn:opacity-100 transition-opacity">Mark Responded</span>
+                                     <CheckCircle class="w-4 h-4 opacity-80 group-hover/btn:opacity-100 group-hover/btn:text-green-500" />
+                                     <span class="text-xs font-black uppercase tracking-widest opacity-0 group-hover/btn:opacity-100 transition-opacity">Mark Responded</span>
                                 </button>
                                 <button 
                                      v-if="message.status !== 'archived'"
@@ -102,8 +102,8 @@ const getStatusColor = (status: string) => {
                                      class="p-3 border border-white/5 hover:border-safari-gold/50 hover:bg-safari-gold/5 transition-all group/btn flex items-center gap-3 w-full lg:w-44 whitespace-nowrap"
                                      title="Archive Message"
                                 >
-                                     <Archive class="w-4 h-4 opacity-40 group-hover/btn:opacity-100 group-hover/btn:text-safari-gold" />
-                                     <span class="text-[9px] font-black uppercase tracking-widest opacity-0 group-hover/btn:opacity-100 transition-opacity">Archive Source</span>
+                                     <Archive class="w-4 h-4 opacity-80 group-hover/btn:opacity-100 group-hover/btn:text-safari-gold" />
+                                     <span class="text-xs font-black uppercase tracking-widest opacity-0 group-hover/btn:opacity-100 transition-opacity">Archive Source</span>
                                 </button>
                                 <button 
                                      v-if="message.status !== 'pending'"
@@ -111,16 +111,16 @@ const getStatusColor = (status: string) => {
                                      class="p-3 border border-white/5 hover:border-amber-500/50 hover:bg-amber-500/5 transition-all group/btn flex items-center gap-3 w-full lg:w-44 whitespace-nowrap"
                                      title="Set to Pending"
                                 >
-                                     <AlertCircle class="w-4 h-4 opacity-40 group-hover/btn:opacity-100 group-hover/btn:text-amber-500" />
-                                     <span class="text-[9px] font-black uppercase tracking-widest opacity-0 group-hover/btn:opacity-100 transition-opacity">Reset to Pending</span>
+                                     <AlertCircle class="w-4 h-4 opacity-80 group-hover/btn:opacity-100 group-hover/btn:text-amber-500" />
+                                     <span class="text-xs font-black uppercase tracking-widest opacity-0 group-hover/btn:opacity-100 transition-opacity">Reset to Pending</span>
                                 </button>
                                 <button 
                                      @click="deleteMessage(message.id)" 
                                      class="p-3 border border-white/5 hover:border-red-500/50 hover:bg-red-500/5 transition-all group/btn flex items-center gap-3 w-full lg:w-44 whitespace-nowrap font-black"
                                      title="Expunge Message"
                                 >
-                                     <Trash2 class="w-4 h-4 opacity-40 group-hover/btn:opacity-100 group-hover/btn:text-red-500" />
-                                     <span class="text-[9px] font-black uppercase tracking-widest opacity-0 group-hover/btn:opacity-100 transition-opacity">Expunge Intel</span>
+                                     <Trash2 class="w-4 h-4 opacity-80 group-hover/btn:opacity-100 group-hover/btn:text-red-500" />
+                                     <span class="text-xs font-black uppercase tracking-widest opacity-0 group-hover/btn:opacity-100 transition-opacity">Expunge Intel</span>
                                 </button>
                            </div>
                       </div>
@@ -130,8 +130,8 @@ const getStatusColor = (status: string) => {
             <!-- Empty State -->
             <div v-else class="py-32 border border-dashed border-white/10 rounded-sm flex flex-col items-center justify-center text-center">
                  <Mail class="w-12 h-12 opacity-10 mb-6" />
-                 <h3 class="text-xl font-black uppercase tracking-widest mb-2">No Inbound Intel</h3>
-                 <p class="text-xs opacity-40 max-w-xs uppercase tracking-widest">The contact logs are currently silent.</p>
+                 <h3 class="font-display text-xl font-black uppercase tracking-widest mb-2">No Inbound Intel</h3>
+                 <p class="text-xs opacity-80 max-w-xs uppercase tracking-widest">The contact logs are currently silent.</p>
             </div>
         </div>
     </AppLayout>
