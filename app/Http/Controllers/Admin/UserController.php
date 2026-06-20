@@ -15,7 +15,7 @@ class UserController extends Controller
     {
         $search = $request->input('search');
 
-        $users = User::withCount('bookings')
+        $users = User::withCount(['bookings', 'fleetHires', 'tourEnquiries', 'reviews'])
             ->when($search, function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%")
@@ -24,6 +24,21 @@ class UserController extends Controller
             ->latest()
             ->paginate(15)
             ->withQueryString();
+
+        // Transform to add some mocked "intel" data as requested since we don't have page tracking yet
+        $users->getCollection()->transform(function ($user) {
+            $user->most_visited_pages = [
+                ['page' => 'Safari Chronicles', 'visits' => rand(5, 50)],
+                ['page' => 'Managed Safaris', 'visits' => rand(10, 80)],
+                ['page' => 'Wild Gallery', 'visits' => rand(2, 30)],
+            ];
+            $user->recent_activity = [
+                ['type' => 'recon', 'desc' => 'Scouted new territory', 'time' => '2h ago'],
+                ['type' => 'intel', 'desc' => 'Logged mission feedback', 'time' => '1d ago'],
+            ];
+
+            return $user;
+        });
 
         return Inertia::render('Admin/Users/Index', [
             'users' => $users,

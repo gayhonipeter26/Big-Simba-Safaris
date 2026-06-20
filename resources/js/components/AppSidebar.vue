@@ -25,39 +25,20 @@ const mainNavItems = computed(() => {
                 icon: LayoutGrid,
             },
             {
-                title: 'Safari Story',
-                url: route('admin.about.index'),
-                icon: Info,
-            },
-            {
-                title: 'Managed Safaris',
-                url: route('admin.tours.index'),
-                icon: MapPin,
-            },
-            {
-                title: 'Safari Pipeline',
-                url: route('admin.tour-enquiries.index'),
-                icon: Compass,
-            },
-            {
-                title: 'Wild Destinations',
-                url: route('admin.destinations.index'),
-                icon: MapPin,
-            },
-            {
-                title: 'Platform Users',
-                url: route('admin.users.index'),
-                icon: Users,
-            },
-            {
-                title: 'Wild Gallery',
-                url: route('admin.gallery.index'),
-                icon: Camera,
-            },
-            {
-                title: 'Strategic Services',
+                title: 'Core Operations',
                 url: '#',
-                icon: Layers,
+                icon: Compass,
+                items: [
+                    { title: 'Strategic Timeline', url: route('admin.strategic-events.index') },
+                    { title: 'Managed Safaris', url: route('admin.tours.index') },
+                    { title: 'Wild Destinations', url: route('admin.destinations.index') },
+                    { title: 'Safari Pipeline', url: route('admin.tour-enquiries.index') },
+                ],
+            },
+            {
+                title: 'Logistics & Assets',
+                url: '#',
+                icon: Car,
                 items: [
                     { title: 'Fleet Management', url: route('admin.fleet.index') },
                     { title: 'Hiring Orders', url: route('admin.fleet-hires.index') },
@@ -65,24 +46,29 @@ const mainNavItems = computed(() => {
                 ],
             },
             {
-                title: 'Safari Chronicles',
-                url: route('admin.blog.index'),
-                icon: Newspaper,
-            },
-            {
-                title: 'Hero Recon',
-                url: route('admin.hero-slides.index'),
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Strategic Reviews',
-                url: route('admin.reviews.index'),
+                title: 'Intelligence & Comms',
+                url: '#',
                 icon: MessageSquare,
+                items: [
+                    { title: 'Guest Inquiries', url: route('admin.contact-messages.index') },
+                    { title: 'Strategic Reviews', url: route('admin.reviews.index') },
+                    { title: 'Safari Chronicles', url: route('admin.blog.index') },
+                    { title: 'Safari Story', url: route('admin.about.index') },
+                ],
             },
             {
-                title: 'Guest Inquiries',
-                url: route('admin.contact-messages.index'),
-                icon: Mail,
+                title: 'Visual Logistics',
+                url: '#',
+                icon: Camera,
+                items: [
+                    { title: 'Wild Gallery', url: route('admin.gallery.index') },
+                    { title: 'Hero Recon Slides', url: route('admin.hero-slides.index') },
+                ],
+            },
+            {
+                title: 'Personnel & Target',
+                url: route('admin.users.index'),
+                icon: Users,
             },
         ];
     }

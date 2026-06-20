@@ -25,16 +25,18 @@ Route::post('/api/mpesa/c2b/validation', [MpesaController::class, 'c2bValidation
 Route::post('/api/mpesa/c2b/confirmation', [MpesaController::class, 'c2bConfirmation'])->name('mpesa.c2b.confirmation');
 Route::post('/api/mpesa/c2b/register', [MpesaController::class, 'registerUrls'])->name('mpesa.c2b.register');
 Route::get('/api/test/mpesa-mock-success/{id}', [MpesaController::class, 'mockSuccess'])->name('mpesa.mock-success');
-Route::post('/mpesa/stkpush', [MpesaController::class, 'initiateStkPush'])->name('mpesa.stkpush');
+Route::post('/mpesa/stkpush', [MpesaController::class, 'initiateStkPush'])->name('mpesa.stkpush')->middleware('throttle:3,1');
 Route::get('/currency/{code}', function ($code) {
     session(['currency' => strtoupper($code)]);
 
     return back();
 })->name('currency.switch');
+use App\Http\Controllers\Admin\StrategicEventController;
 use App\Http\Controllers\Admin\TourEnquiryController;
 use App\Http\Controllers\ServiceOrderController;
 use App\Models\Fleet;
 use App\Models\Service;
+use App\Models\StrategicEvent;
 use App\Models\Tour;
 use Inertia\Inertia;
 
@@ -53,10 +55,10 @@ Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 
 // Public Action Routes
 Route::get('fleet-hire', [FleetHireController::class, 'index'])->name('fleet-hire.index');
-Route::post('fleet-hire', [FleetHireController::class, 'store'])->name('fleet-hire.store');
+Route::post('fleet-hire', [FleetHireController::class, 'store'])->name('fleet-hire.store')->middleware('throttle:3,1');
 Route::get('services', [ServiceOrderController::class, 'index'])->name('services.index');
-Route::post('services', [ServiceOrderController::class, 'store'])->name('services.store');
-Route::post('tour-enquiries', [App\Http\Controllers\TourEnquiryController::class, 'store'])->name('tour-enquiries.store');
+Route::post('services', [ServiceOrderController::class, 'store'])->name('services.store')->middleware('throttle:3,1');
+Route::post('tour-enquiries', [App\Http\Controllers\TourEnquiryController::class, 'store'])->name('tour-enquiries.store')->middleware('throttle:3,1');
 Route::delete('tour-enquiries/{tourEnquiry}', [App\Http\Controllers\TourEnquiryController::class, 'destroy'])->name('tour-enquiries.destroy')->middleware('auth');
 Route::post('contact', [ContactController::class, 'store'])->name('contact.store');
 Route::post('/tours/{tour}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
@@ -73,6 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'total_tours' => Tour::count(),
             'total_fleet' => Fleet::count(),
             'total_services' => Service::count(),
+            'strategic_events' => StrategicEvent::where('status', 'published')->get(),
         ]);
     })->name('dashboard');
 
@@ -109,6 +112,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->as('admin.')-
     Route::resource('reviews', App\Http\Controllers\Admin\ReviewController::class)->only(['index', 'update', 'destroy']);
     Route::resource('hero-slides', HeroSlideController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('services', ServiceController::class);
+    Route::resource('strategic-events', StrategicEventController::class)->except(['show']);
 });
 
 require __DIR__.'/settings.php';

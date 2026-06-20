@@ -14,23 +14,40 @@ class MpesaController extends Controller
 {
     public function __construct(protected MpesaService $mpesaService) {}
 
-    /**
-     * Initiate STK Push (B2C) mission protocol
-     */
     public function initiateStkPush(Request $request)
     {
         $validated = $request->validate([
             'phone' => 'required|string',
-            'amount' => 'required|numeric',
             'reference' => 'required|string',
             'order_id' => 'required|integer',
             'order_type' => 'required|string|in:booking,fleet,service,enquiry',
             'description' => 'nullable|string',
         ]);
 
+        $model = match ($validated['order_type']) {
+            'booking' => Booking::find($validated['order_id']),
+            'fleet' => FleetHire::find($validated['order_id']),
+            'service' => ServiceOrder::find($validated['order_id']),
+            'enquiry' => TourEnquiry::find($validated['order_id']),
+            default => null
+        };
+
+        if (! $model) {
+            return response()->json(['error' => 'Mission protocol target not found.'], 404);
+        }
+
+        if ($model->payment_status === 'paid') {
+            return response()->json(['error' => 'Mission protocol already fully authorized.'], 400);
+        }
+
+        $amount = $model->paid_amount;
+        if (! $amount) {
+            return response()->json(['error' => 'Invalid tactical amount configuration.'], 500);
+        }
+
         $response = $this->mpesaService->stkPush(
             $validated['phone'],
-            $validated['amount'],
+            $amount,
             $validated['reference'],
             $validated['description'] ?? 'Payment for Safari Services'
         );
@@ -176,37 +193,43 @@ class MpesaController extends Controller
 
     private function updatePaymentStatus($merchantRequestId, $receipt, $amount)
     {
+        if ($booking = Booking::where('payment_reference', $merchantRequestId)->first()) {
+            $this->processPaymentUpdate($booking, $receipt, $amount);
+        } elseif ($fleet = FleetHire::where('payment_reference', $merchantRequestId)->first()) {
+            $this->processPaymentUpdate($fleet, $receipt, $amount);
+        } elseif ($service = ServiceOrder::where('payment_reference', $merchantRequestId)->first()) {
+            $this->processPaymentUpdate($service, $receipt, $amount);
+        } elseif ($enquiry = TourEnquiry::where('payment_reference', $merchantRequestId)->first()) {
+            $this->processPaymentUpdate($enquiry, $receipt, $amount);
+        }
+    }
+
+    private function processPaymentUpdate($model, $receipt, $amount, $paymentMethod = 'mpesa')
+    {
+        $expectedAmount = $model->paid_amount ?? 0;
+
         $payload = [
             'payment_status' => 'paid',
             'status' => 'approved',
             'payment_id' => $receipt,
-            'paid_amount' => $amount,
+            'payment_method' => $paymentMethod,
         ];
 
-        if ($booking = Booking::where('payment_reference', $merchantRequestId)->first()) {
-            $booking->update($payload);
-        } elseif ($fleet = FleetHire::where('payment_reference', $merchantRequestId)->first()) {
-            $fleet->update($payload);
-        } elseif ($service = ServiceOrder::where('payment_reference', $merchantRequestId)->first()) {
-            $service->update($payload);
-        } elseif ($enquiry = TourEnquiry::where('payment_reference', $merchantRequestId)->first()) {
-            $enquiry->update($payload);
+        if ($expectedAmount > 0 && abs((float) $expectedAmount - (float) $amount) > 0.5) {
+            Log::error('M-Pesa Amount Mismatch Detected', ['expected' => $expectedAmount, 'received' => $amount]);
+            $payload['payment_status'] = 'failed';
+            $payload['status'] = 'rejected';
+            $payload['payment_id'] = 'SUSPECT_'.$receipt;
         }
+
+        $model->update($payload);
     }
 
     private function updatePaymentByManualReference($reference, $receipt, $amount)
     {
-        $payload = [
-            'payment_status' => 'paid',
-            'status' => 'approved',
-            'payment_id' => $receipt,
-            'paid_amount' => $amount,
-            'payment_method' => 'mpesa_c2b',
-        ];
-
         // Try to find by custom reference (e.g. Booking Code)
         if ($booking = Booking::where('booking_confirmation_code', $reference)->first()) {
-            $booking->update($payload);
+            $this->processPaymentUpdate($booking, $receipt, $amount, 'mpesa_c2b');
         }
     }
 }

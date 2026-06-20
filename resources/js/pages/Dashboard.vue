@@ -28,6 +28,7 @@ const props = defineProps<{
     total_tours: number;
     total_fleet: number;
     total_services: number;
+    strategic_events?: any[];
 }>();
 
 const searchQuery = ref('');
@@ -102,50 +103,7 @@ const currentMonth = ref(new Date().getMonth());
 const currentYear = ref(new Date().getFullYear());
 const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
 
-const strategicEvents = [
-    { 
-        name: 'Mara Migration', 
-        occasion: 'Great Migration Crossing',
-        month: 6, // July (0-indexed)
-        days: [12, 13, 14, 15, 16, 17, 18], 
-        color: 'bg-safari-gold', 
-        label: 'Peak',
-        location: 'Maasai Mara',
-        region: 'Narok County, Kenya',
-        time: '06:00 - 18:30 HRS',
-        description: 'Synchronized crossing of the Mara River discovered. Peak predator activity detected across the northern sector.',
-        asset_class: 'ALPHA EXPEDITION',
-        image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=800'
-    },
-    { 
-        name: 'Amboseli Calving', 
-        occasion: 'Elephant Calving Window',
-        month: 2, // March
-        days: [24, 25, 26, 27, 28], 
-        color: 'bg-green-500', 
-        label: 'Event',
-        location: 'Amboseli Park',
-        region: 'Kajiado, Kenya',
-        time: '07:00 - 17:00 HRS',
-        description: 'Synchronized elephant calving detected. Large matriarchal herds converging at the wetlands for hydration.',
-        asset_class: 'TACTICAL SURVEY',
-        image: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?q=80&w=800'
-    },
-    { 
-        name: 'Tsavo Recon', 
-        occasion: 'Arid Reconnaisance',
-        month: 7, // August
-        days: [1, 2, 3, 4, 5], 
-        color: 'bg-orange-500', 
-        label: 'Optimal',
-        location: 'Tsavo East',
-        region: 'Coast Region, Kenya',
-        time: '05:30 - 19:00 HRS',
-        description: 'Extreme arid conditions forcing predator convergence at fixed watering points.',
-        asset_class: 'SURVEY RECON',
-        image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800'
-    }
-];
+const strategicEvents = computed(() => props.strategic_events || []);
 
 const selectedDayData = ref<any>(null);
 const isIntelModalOpen = ref(false);
@@ -153,7 +111,7 @@ const isYearViewOpen = ref(false);
 
 const openDayIntel = (i: number) => {
     if (i === 0) return;
-    const event = strategicEvents.find(e => e.days.includes(i) && e.month === currentMonth.value);
+    const event = strategicEvents.value.find(e => e.days.includes(i) && e.month === currentMonth.value);
     selectedDayData.value = {
         day: i,
         event: event || null,
@@ -199,11 +157,11 @@ const selectMonth = (index: number) => {
 };
 
 const getEventForDay = (day: number) => {
-    return strategicEvents.find(e => e.days.includes(day) && e.month === currentMonth.value);
+    return strategicEvents.value.find(e => e.days.includes(day) && e.month === currentMonth.value);
 };
 
 const getEventsForMonth = (monthIndex: number) => {
-    return strategicEvents.filter(e => e.month === monthIndex);
+    return strategicEvents.value.filter(e => e.month === monthIndex);
 };
 
 // Expedition Request States
@@ -624,25 +582,56 @@ const calendarGrid = computed(() => {
                 </div>
                 <div class="md:w-7/12 p-6 md:p-12 flex flex-col justify-between relative bg-black overflow-y-auto">
                     <button @click="isIntelModalOpen = false" class="absolute top-4 right-4 md:top-8 md:right-8 w-8 h-8 flex items-center justify-center text-white/20 hover:text-safari-gold transition-colors z-20"><X class="w-5 h-5" /></button>
-                    <div class="space-y-8 md:space-y-10">
+
+                    <!-- No Event State -->
+                    <div v-if="!selectedDayData.event" class="flex flex-col justify-between h-full">
+                        <div class="flex flex-col items-start justify-center flex-1 space-y-8 py-8">
+                            <div class="space-y-2">
+                                <p class="text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em] text-safari-gold opacity-60">SECTOR STATUS //</p>
+                                <h4 class="text-xl md:text-2xl font-black uppercase tracking-tighter text-white">No Operations Scheduled</h4>
+                            </div>
+                            <div class="w-full border border-white/5 rounded-sm p-6 md:p-8 bg-white/[0.02] space-y-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-sm border border-white/10 bg-black/40 flex items-center justify-center shrink-0">
+                                        <Calendar class="w-4 h-4 text-white/20" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <p class="text-xs font-black uppercase tracking-widest text-white/30">NO EVENTS ADDED YET</p>
+                                        <p class="text-[9px] font-medium text-white/20 uppercase tracking-widest italic">This day has no designated operations.</p>
+                                    </div>
+                                </div>
+                                <div class="border-t border-white/5 pt-4">
+                                    <p class="text-[9px] font-light italic text-white/30 leading-relaxed border-l border-white/10 pl-4">
+                                        "No strategic events or recon missions have been logged for this temporal sector. The savanna remains quiet."
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-6 flex flex-col sm:flex-row gap-3">
+                            <button @click="isIntelModalOpen = false" class="flex-1 border border-white/10 hover:border-safari-gold/30 hover:text-safari-gold text-white/40 text-center py-4 md:py-5 rounded-sm font-black uppercase tracking-[0.3em] text-[9px] transition-all">DISMISS</button>
+                        </div>
+                    </div>
+
+                    <!-- Event Found State -->
+                    <div v-else class="space-y-8 md:space-y-10">
                         <div class="space-y-1.5">
                              <p class="text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em] text-safari-gold opacity-60">STRATEGIC OCCASION //</p>
-                             <h4 class="text-xl md:text-2xl font-black uppercase tracking-tighter text-white">{{ selectedDayData.event?.occasion || 'Standard Recon' }}</h4>
+                             <h4 class="text-xl md:text-2xl font-black uppercase tracking-tighter text-white">{{ selectedDayData.event.occasion }}</h4>
                         </div>
                         <div class="grid grid-cols-1 xs:grid-cols-2 gap-5 md:gap-8">
-                             <div class="space-y-1 md:space-y-2"><p class="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] opacity-30">TACTICAL SECTOR</p><div class="flex items-center gap-2"><MapPin class="w-3.5 h-3.5 text-safari-gold" /><p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white/80 line-clamp-1">{{ selectedDayData.event?.location || 'General Reserve' }}</p></div></div>
-                             <div class="space-y-1 md:space-y-2"><p class="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] opacity-30">KENYA REGION</p><p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white/40 line-clamp-1">{{ selectedDayData.event?.region || 'Tier 01 Surveillance' }}</p></div>
-                             <div class="space-y-1 md:space-y-2"><p class="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] opacity-30">TIME WINDOW</p><div class="flex items-center gap-2"><Clock class="w-3.5 h-3.5 text-safari-gold/60" /><p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white/60 line-clamp-1">{{ selectedDayData.event?.time || '00:00 - 23:59 HRS' }}</p></div></div>
-                             <div class="space-y-1 md:space-y-2"><p class="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] opacity-30">ASSET CLASS</p><p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-safari-gold line-clamp-1">{{ selectedDayData.event?.asset_class || 'UTILITY' }}</p></div>
+                             <div class="space-y-1 md:space-y-2"><p class="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] opacity-30">TACTICAL SECTOR</p><div class="flex items-center gap-2"><MapPin class="w-3.5 h-3.5 text-safari-gold" /><p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white/80 line-clamp-1">{{ selectedDayData.event.location || 'General Reserve' }}</p></div></div>
+                             <div class="space-y-1 md:space-y-2"><p class="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] opacity-30">KENYA REGION</p><p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white/40 line-clamp-1">{{ selectedDayData.event.region || 'Tier 01 Surveillance' }}</p></div>
+                             <div class="space-y-1 md:space-y-2"><p class="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] opacity-30">TIME WINDOW</p><div class="flex items-center gap-2"><Clock class="w-3.5 h-3.5 text-safari-gold/60" /><p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white/60 line-clamp-1">{{ selectedDayData.event.time || '00:00 - 23:59 HRS' }}</p></div></div>
+                             <div class="space-y-1 md:space-y-2"><p class="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] opacity-30">ASSET CLASS</p><p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-safari-gold line-clamp-1">{{ selectedDayData.event.asset_class || 'UTILITY' }}</p></div>
                         </div>
                         <div class="space-y-3">
                              <p class="text-[8px] md:text-[9px] font-black tracking-[0.5em] uppercase text-safari-gold opacity-80">INTEL BRIEFING</p>
-                             <p class="text-[11px] md:text-xs font-light italic text-white/60 leading-relaxed border-l border-safari-gold/30 pl-5 md:pl-6">"{{ selectedDayData.event?.description || 'No major anomalies or weather disruptions detected in this temporal sector. Standard mission parameters remain active.' }}"</p>
+                             <p class="text-[11px] md:text-xs font-light italic text-white/60 leading-relaxed border-l border-safari-gold/30 pl-5 md:pl-6">"{{ selectedDayData.event.description }}"</p>
                         </div>
-                    </div>
-                    <div class="pt-8 md:pt-10 flex flex-col sm:flex-row gap-3">
-                         <Link :href="route('user.tours.index', { search: selectedDayData.event?.location || '', highlight: 'true' })" class="flex-1 bg-safari-gold/[0.9] text-black text-center py-4 md:py-5 rounded-sm font-black uppercase tracking-[0.3em] text-[9px] hover:bg-white transition-all">LAUNCH MISSION</Link>
-                         <button @click="isIntelModalOpen = false" class="px-8 border border-white/5 hover:border-white/20 text-[9px] font-black uppercase tracking-[0.3em] transition-colors py-4 md:py-0">DISMISS</button>
+                        <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                             <Link :href="route('user.tours.index', { search: selectedDayData.event.location || '', highlight: 'true' })" class="flex-1 bg-safari-gold/[0.9] text-black text-center py-4 md:py-5 rounded-sm font-black uppercase tracking-[0.3em] text-[9px] hover:bg-white transition-all">LAUNCH MISSION</Link>
+                             <button @click="isIntelModalOpen = false" class="px-8 border border-white/5 hover:border-white/20 text-[9px] font-black uppercase tracking-[0.3em] transition-colors py-4 md:py-0">DISMISS</button>
+                        </div>
                     </div>
                 </div>
                 <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-safari-gold via-black to-safari-gold/20"></div>

@@ -10,9 +10,16 @@ import { LoaderCircle } from 'lucide-vue-next';
 import { ref } from 'vue';
 
 const isGoogleLoading = ref(false);
+const isFacebookLoading = ref(false);
+
 const loginWithGoogle = () => {
     isGoogleLoading.value = true;
     window.location.href = route('google.redirect');
+};
+
+const loginWithFacebook = () => {
+    isFacebookLoading.value = true;
+    window.location.href = route('facebook.redirect');
 };
 
 const showNativeForm = ref(false);
@@ -42,7 +49,7 @@ const submit = () => {
             <!-- Social Logins -->
             <Button 
                 @click="loginWithGoogle"
-                :disabled="isGoogleLoading"
+                :disabled="isGoogleLoading || isFacebookLoading"
                 variant="outline" 
                 class="h-12 w-full flex items-center justify-center gap-3 border-white/10 hover:bg-white/5 transition-all rounded-full group disabled:opacity-70 disabled:cursor-not-allowed"
             >
@@ -59,11 +66,19 @@ const submit = () => {
             </Button>
 
             <div class="grid grid-cols-2 gap-4">
-                <Button variant="outline" class="h-12 w-full flex items-center justify-center gap-2 border-white/10 hover:bg-white/5 transition-all rounded-full group">
-                    <svg viewBox="0 0 24 24" class="size-4 shrink-0 fill-[#1877F2]" xmlns="http://www.w3.org/2000/svg">
+                <Button 
+                    @click="loginWithFacebook"
+                    :disabled="isGoogleLoading || isFacebookLoading"
+                    variant="outline" 
+                    class="h-12 w-full flex items-center justify-center gap-2 border-white/10 hover:bg-white/5 transition-all rounded-full group disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                    <LoaderCircle v-if="isFacebookLoading" class="w-4 h-4 animate-spin text-[#1877F2] shrink-0" />
+                    <svg v-else viewBox="0 0 24 24" class="size-4 shrink-0 fill-[#1877F2]" xmlns="http://www.w3.org/2000/svg">
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                     </svg>
-                    <span class="text-xs font-black uppercase tracking-[0.1em] md:tracking-[0.2em] group-hover:text-[#1877F2] transition-colors">Facebook</span>
+                    <span class="text-xs font-black uppercase tracking-[0.1em] md:tracking-[0.2em] group-hover:text-[#1877F2] transition-colors">
+                        {{ isFacebookLoading ? '...' : 'Facebook' }}
+                    </span>
                 </Button>
 
                 <Button variant="outline" class="h-12 w-full flex items-center justify-center gap-2 border-white/10 hover:bg-white/5 transition-all rounded-full group">

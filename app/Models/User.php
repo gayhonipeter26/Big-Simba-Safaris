@@ -25,6 +25,7 @@ class User extends Authenticatable
         'password',
         'is_admin',
         'google_id',
+        'facebook_id',
         'avatar',
         'last_recon_at',
         'last_recon_ip',

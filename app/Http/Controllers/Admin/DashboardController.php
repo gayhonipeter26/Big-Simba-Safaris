@@ -10,7 +10,9 @@ use App\Models\GalleryItem;
 use App\Models\HeroSlide;
 use App\Models\Post;
 use App\Models\Review;
+use App\Models\StrategicEvent;
 use App\Models\Tour;
+use App\Models\TourEnquiry;
 use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -37,6 +39,9 @@ class DashboardController extends Controller
 
         return Inertia::render('Admin/Dashboard', [
             'stats' => $stats,
+            'tour_enquiries' => TourEnquiry::with(['tour.destination', 'fleet', 'user'])->latest()->limit(15)->get(),
+            'fleet_hires' => FleetHire::with(['fleet', 'user'])->latest()->limit(15)->get(),
+            'strategic_events' => StrategicEvent::where('status', 'published')->get(),
         ]);
     }
 }
