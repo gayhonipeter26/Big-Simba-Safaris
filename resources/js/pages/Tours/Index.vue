@@ -70,7 +70,7 @@ const form = useForm({
 const { show: showToast } = useToast();
 
 const calculatedDeposit = computed(() => {
-    let tourDeposit = (selectedTour.value ? parseFloat(selectedTour.value.price) : 0) * (parseInt(form.guests) || 1) * 0.1;
+    const tourDeposit = (selectedTour.value ? parseFloat(selectedTour.value.price) : 0) * (parseInt(form.guests) || 1) * 0.1;
     let fleetDeposit = 0;
     if (selectedFleetId.value) {
         const sf = props.fleet.find(f => f.id === selectedFleetId.value);

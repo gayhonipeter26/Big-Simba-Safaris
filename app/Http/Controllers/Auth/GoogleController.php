@@ -83,7 +83,7 @@ class GoogleController extends Controller
                     'name' => $googleUser->name,
                 ]]);
 
-                return redirect()->route('auth.google.verify');
+                return redirect()->route('google.verify');
             }
 
             // Create a new user record for new Google users

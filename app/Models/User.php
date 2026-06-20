@@ -26,6 +26,7 @@ class User extends Authenticatable
         'is_admin',
         'google_id',
         'facebook_id',
+        'tiktok_id',
         'avatar',
         'last_recon_at',
         'last_recon_ip',

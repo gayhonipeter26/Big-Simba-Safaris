@@ -11,6 +11,7 @@ import { ref } from 'vue';
 
 const isGoogleLoading = ref(false);
 const isFacebookLoading = ref(false);
+const isTikTokLoading = ref(false);
 
 const loginWithGoogle = () => {
     isGoogleLoading.value = true;
@@ -20,6 +21,11 @@ const loginWithGoogle = () => {
 const loginWithFacebook = () => {
     isFacebookLoading.value = true;
     window.location.href = route('facebook.redirect');
+};
+
+const loginWithTikTok = () => {
+    isTikTokLoading.value = true;
+    window.location.href = route('tiktok.redirect');
 };
 
 const showNativeForm = ref(false);
@@ -49,7 +55,7 @@ const submit = () => {
             <!-- Social Logins -->
             <Button 
                 @click="loginWithGoogle"
-                :disabled="isGoogleLoading || isFacebookLoading"
+                :disabled="isGoogleLoading || isFacebookLoading || isTikTokLoading"
                 variant="outline" 
                 class="h-12 w-full flex items-center justify-center gap-3 border-white/10 hover:bg-white/5 transition-all rounded-full group disabled:opacity-70 disabled:cursor-not-allowed"
             >
@@ -68,7 +74,7 @@ const submit = () => {
             <div class="grid grid-cols-2 gap-4">
                 <Button 
                     @click="loginWithFacebook"
-                    :disabled="isGoogleLoading || isFacebookLoading"
+                    :disabled="isGoogleLoading || isFacebookLoading || isTikTokLoading"
                     variant="outline" 
                     class="h-12 w-full flex items-center justify-center gap-2 border-white/10 hover:bg-white/5 transition-all rounded-full group disabled:opacity-70 disabled:cursor-not-allowed"
                 >
@@ -81,11 +87,19 @@ const submit = () => {
                     </span>
                 </Button>
 
-                <Button variant="outline" class="h-12 w-full flex items-center justify-center gap-2 border-white/10 hover:bg-white/5 transition-all rounded-full group">
-                    <svg viewBox="0 0 24 24" class="size-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg">
+                <Button 
+                    @click="loginWithTikTok"
+                    :disabled="isGoogleLoading || isFacebookLoading || isTikTokLoading"
+                    variant="outline" 
+                    class="h-12 w-full flex items-center justify-center gap-2 border-white/10 hover:bg-white/5 transition-all rounded-full group disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                    <LoaderCircle v-if="isTikTokLoading" class="w-4 h-4 animate-spin text-safari-gold shrink-0" />
+                    <svg v-else viewBox="0 0 24 24" class="size-4 shrink-0 fill-current" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.23-1.15 4.39-2.98 5.74-1.84 1.36-4.26 1.7-6.42 1.09-2.16-.62-3.95-2.23-4.71-4.32-.76-2.09-.54-4.52.61-6.44 1.14-1.92 3.25-3.21 5.48-3.45.18-.02.37-.02.55-.03v4.06c-1.55.15-2.99 1.19-3.61 2.61-.62 1.42-.39 3.08.57 4.27.96 1.19 2.59 1.7 4.09 1.28 1.49-.41 2.61-1.67 2.89-3.19.08-.42.12-.85.12-1.28V.02h-.65z"/>
                     </svg>
-                    <span class="text-xs font-black uppercase tracking-[0.1em] md:tracking-[0.2em] group-hover:text-safari-gold transition-colors">TikTok</span>
+                    <span class="text-xs font-black uppercase tracking-[0.1em] md:tracking-[0.2em] group-hover:text-safari-gold transition-colors">
+                        {{ isTikTokLoading ? '...' : 'TikTok' }}
+                    </span>
                 </Button>
             </div>
 

@@ -55,7 +55,7 @@ const totalInvestment = computed(() => {
 });
 
 const calculatedDeposit = computed(() => {
-    let tourDeposit = (parseFloat(props.tour.price) * bookingForm.guests) * 0.1;
+    const tourDeposit = (parseFloat(props.tour.price) * bookingForm.guests) * 0.1;
     let fleetDeposit = 0;
     if (bookingForm.fleet_id) {
         const selectedFleet = (page.props.fleet as any[])?.find(f => f.id == bookingForm.fleet_id);

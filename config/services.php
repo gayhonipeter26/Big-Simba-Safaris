@@ -47,6 +47,14 @@ return [
         'redirect' => env('FACEBOOK_REDIRECT_URL', '/auth/facebook/callback'),
     ],
 
+    'tiktok' => [
+        'client_id' => env('TIKTOK_CLIENT_ID'),
+        'client_secret' => env('TIKTOK_CLIENT_SECRET'),
+        'redirect' => env('TIKTOK_REDIRECT_URL', '/auth/tiktok/callback'),
+        'terms_url' => env('TIKTOK_TOS_URL'),
+        'privacy_url' => env('TIKTOK_PRIVACY_URL'),
+    ],
+
     'mpesa' => [
         'key' => env('MPESA_CONSUMER_KEY'),
         'secret' => env('MPESA_CONSUMER_SECRET'),

@@ -70,9 +70,15 @@ const getInitials = (name: string) => {
                     <div class="space-y-2 flex-1 pt-2">
                         <h2 class="font-display text-2xl font-black uppercase tracking-widest text-white">Safari Identity</h2>
                         <p class="text-xs font-black uppercase tracking-[0.3em] opacity-80">Your profile information is current tracked as:</p>
-                        <div v-if="user.google_id" class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
-                            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                            <span class="text-xs font-black uppercase tracking-widest opacity-90">Synced with Google</span>
+                        <div class="flex flex-wrap gap-2">
+                            <div v-if="user.google_id" class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                                <span class="text-xs font-black uppercase tracking-widest opacity-90">Synced with Google</span>
+                            </div>
+                            <div v-if="user.tiktok_id" class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                                <span class="text-xs font-black uppercase tracking-widest opacity-90">Synced with TikTok</span>
+                            </div>
                         </div>
                     </div>
                 </div>

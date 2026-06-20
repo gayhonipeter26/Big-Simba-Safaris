@@ -32,7 +32,8 @@ const formatDate = (date: string) => {
         <meta property="og:title" content="Safari Chronicles - Big Simba Safaris" />
         <meta property="og:description" content="Intel from the wild. Explore our collection of safari field records and wildlife reconnaissance stories." />
         <meta name="keywords" content="Safari Blog, Kenya Wildlife Stories, Safari Field Reports, Big Simba Chronicles" />
-        <component :is="'script'" type="application/ld+json" v-html="JSON.stringify({
+        // eslint-disable-next-line vue/no-v-text-v-html-on-component
+<component :is="'script'" type="application/ld+json" v-html="JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'Blog',
           'name': 'Safari Chronicles',

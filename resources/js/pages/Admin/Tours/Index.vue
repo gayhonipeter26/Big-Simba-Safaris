@@ -2,7 +2,7 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { Plus, Edit2, Trash2, MapPin, Clock, DollarSign, Camera, ArrowRight, ExternalLink } from 'lucide-vue-next';
+import { Plus, Edit2, Trash2, Clock, DollarSign, Camera, ArrowRight, ExternalLink } from 'lucide-vue-next';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin', href: '/admin' },

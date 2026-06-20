@@ -7,16 +7,13 @@ import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle, ShieldAlert } from 'lucide-vue-next';
 
-defineProps<{
-    email: string;
-}>();
-
 const form = useForm({
+    email: '',
     password: '',
 });
 
 const submit = () => {
-    form.post(route('google.link'), {
+    form.post(route('tiktok.link'), {
         onFinish: () => form.reset('password'),
     });
 };
@@ -24,30 +21,47 @@ const submit = () => {
 
 <template>
     <AuthBase 
-        title="Verify Account" 
-        description="To link your Google account, please confirm ownership of your existing account."
+        title="Verify TikTok Connection" 
+        description="Provide your email to link your TikTok account or complete your registration."
     >
-        <Head title="Verify Google Link" />
+        <Head title="Verify TikTok Link" />
 
         <div class="mb-8 flex flex-col items-center text-center">
             <div class="w-16 h-16 bg-safari-gold/10 rounded-full flex items-center justify-center mb-6">
                 <ShieldAlert class="w-8 h-8 text-safari-gold" />
             </div>
-            <p class="text-sm font-black uppercase tracking-[0.3em] opacity-80 mb-2">Existing Account Detected</p>
-            <p class="text-white font-bold tracking-wider">{{ email }}</p>
+            <p class="text-sm font-black uppercase tracking-[0.3em] opacity-80 mb-2">Connect Your Account</p>
+            <p class="text-neutral-400 text-xs max-w-sm">
+                If you already have a Big Simba Safaris account, enter its email and password to link it. If you are new, enter your email and leave the password blank to register a new account.
+            </p>
         </div>
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="password" class="text-sm font-black uppercase tracking-widest opacity-90">Account Password</Label>
+                    <Label for="email" class="text-sm font-black uppercase tracking-widest opacity-90">Email Address</Label>
+                    <Input 
+                        id="email" 
+                        type="email" 
+                        required 
+                        autofocus
+                        v-model="form.email" 
+                        placeholder="email@example.com" 
+                        class="bg-white/5 border-white/10" 
+                    />
+                    <InputError :message="form.errors.email" />
+                </div>
+
+                <div class="grid gap-2">
+                    <Label for="password" class="text-sm font-black uppercase tracking-widest opacity-90 flex items-center justify-between">
+                        <span>Account Password</span>
+                        <span class="text-[10px] text-neutral-400 font-normal lowercase tracking-normal">(only required to link existing accounts)</span>
+                    </Label>
                     <Input 
                         id="password" 
                         type="password" 
-                        required 
-                        autofocus
                         v-model="form.password" 
-                        placeholder="Enter your current password" 
+                        placeholder="Enter password (optional)" 
                         class="bg-white/5 border-white/10" 
                     />
                     <InputError :message="form.errors.password" />
@@ -55,7 +69,7 @@ const submit = () => {
 
                 <Button type="submit" class="mt-4 w-full bg-safari-gold hover:bg-white text-black text-sm font-black uppercase tracking-[0.2em]" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                    Verify & Link Account
+                    Verify & Connect
                 </Button>
             </div>
 

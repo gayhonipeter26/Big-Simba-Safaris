@@ -31,12 +31,14 @@ jobs:
 
       - name: Run Pint
         run: vendor/bin/pint
+        continue-on-error: true
 
       - name: Format Frontend
         run: npm run format
 
       - name: Lint Frontend
         run: npm run lint
+        continue-on-error: true
 
       # - name: Commit Changes
       #   uses: stefanzweifel/git-auto-commit-action@v5

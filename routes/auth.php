@@ -9,9 +9,13 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\TikTokController;
 use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('auth/tiktok', [TikTokController::class, 'redirect'])->name('tiktok.redirect');
+Route::get('auth/tiktok/callback', [TikTokController::class, 'callback'])->name('tiktok.callback');
 
 Route::middleware('guest')->group(function () {
     Route::get('auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
@@ -21,6 +25,9 @@ Route::middleware('guest')->group(function () {
 
     Route::get('auth/facebook', [FacebookController::class, 'redirect'])->name('facebook.redirect');
     Route::get('auth/facebook/callback', [FacebookController::class, 'callback'])->name('facebook.callback');
+
+    Route::get('auth/tiktok/verify', [TikTokController::class, 'showVerify'])->name('tiktok.verify');
+    Route::post('auth/tiktok/verify', [TikTokController::class, 'verify'])->name('tiktok.link');
 
     // Support OTP verification (Strict Admin Access)
     Route::get('verify-access', [TwoFactorController::class, 'show'])->name('otp.show');
